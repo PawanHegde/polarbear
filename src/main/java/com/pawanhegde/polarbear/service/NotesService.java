@@ -4,11 +4,9 @@ import com.pawanhegde.polarbear.model.Note;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class NotesService {
@@ -18,7 +16,10 @@ public class NotesService {
         Session session = getSession();
 
         session.beginTransaction();
-        return session.createQuery("from note", Note.class).list();
+        List<Note> notes = session.createQuery("from Note", Note.class).list();
+        session.close();
+
+        return notes;
     }
 
     public Note getNote(Integer id) {
@@ -35,7 +36,7 @@ public class NotesService {
         Session session = getSession();
 
         session.beginTransaction();
-        session.persist(note);
+        session.saveOrUpdate(note);
         session.getTransaction().commit();
 
         session.close();
@@ -43,16 +44,7 @@ public class NotesService {
 
     private Session getSession () {
         if(sessionFactory == null) {
-            Properties properties = new Properties();
-            properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-            properties.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-            properties.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/test");
-//            properties.setProperty("hibernate.id.new_generator_mappings","false");
-//            properties.setProperty("hibernate.hbm2ddl.auto","create");
-            properties.setProperty("hibernate.connection.username", "pawan");
-            properties.setProperty("hibernate.connection.password", "password");
-
-            Configuration configuration = new Configuration().setProperties(properties);
+            Configuration configuration = new Configuration();
             configuration.addAnnotatedClass(Note.class);
 
             sessionFactory = configuration.buildSessionFactory();
