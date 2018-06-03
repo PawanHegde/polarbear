@@ -13,6 +13,10 @@ version = '0.0.1'
 sourceCompatibility = 1.9
 targetCompatibility = 1.9
 
+clean.doFirst {
+    delete 'out'
+}
+
 repositories {
     mavenCentral()
 }
