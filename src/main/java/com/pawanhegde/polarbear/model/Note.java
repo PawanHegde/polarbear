@@ -1,9 +1,17 @@
 package com.pawanhegde.polarbear.model;
 
+import lombok.Data;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.Set;
+
+import static javax.persistence.FetchType.EAGER;
+import static org.hibernate.annotations.CascadeType.ALL;
 
 @Entity
 @Table(name="notes")
+@Data
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,30 +24,7 @@ public class Note {
     @Column(name="text")
     private String text;
 
-    public Note() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    @ManyToMany(fetch = EAGER)
+    @Cascade(ALL)
+    private Set<Tag> tags;
 }

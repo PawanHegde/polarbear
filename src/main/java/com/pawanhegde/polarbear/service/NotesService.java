@@ -1,6 +1,7 @@
 package com.pawanhegde.polarbear.service;
 
 import com.pawanhegde.polarbear.model.Note;
+import com.pawanhegde.polarbear.model.Tag;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -46,6 +47,7 @@ public class NotesService {
         if(sessionFactory == null) {
             Configuration configuration = new Configuration();
             configuration.addAnnotatedClass(Note.class);
+            configuration.addAnnotatedClass(Tag.class);
 
             sessionFactory = configuration.buildSessionFactory();
         }
