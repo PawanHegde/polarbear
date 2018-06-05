@@ -28,5 +28,6 @@ dependencies {
     compile 'com.sun.xml.bind:jaxb-core:2.3.0'
     compile 'com.sun.xml.bind:jaxb-impl:2.3.0'
     compile 'mysql:mysql-connector-java:8.0.11'
+    compileOnly 'org.projectlombok:lombok:1.18.0'
     testCompile 'junit:junit:4.12'
 }
