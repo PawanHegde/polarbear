@@ -6,8 +6,11 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "tags")
+@Table(name = "tag")
 public class Tag {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     String name;
 }
