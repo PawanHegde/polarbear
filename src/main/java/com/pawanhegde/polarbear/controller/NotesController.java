@@ -15,27 +15,27 @@ public class NotesController {
     private NotesService notesService;
 
     @GetMapping("/notes")
-    List<Note> getNotes() {
+    private List<Note> getNotes() {
         return notesService.getNotes();
     }
 
     @GetMapping("/notes/{id}")
-    Note getNote(@PathVariable Integer id) {
+    private Note getNote(@PathVariable Integer id) {
         return notesService.getNote(id);
     }
 
     @PutMapping("/notes")
-    void putNote(@RequestBody Note note) {
+    private void putNote(@RequestBody Note note) {
         notesService.putNote(note);
     }
 
     @GetMapping("/tags")
-    List<Tag> getTags() {
+    private List<Tag> getTags() {
         return notesService.getTags();
     }
 
     @PostMapping("/notes/{id}/{tag}")
-    void addTagToNote(@PathVariable("id") Integer id, @PathVariable("tag") String tagText) {
+    private void addTagToNote(@PathVariable("id") Integer id, @PathVariable("tag") String tagText) {
         Tag tag = new Tag();
         tag.setName(tagText);
         notesService.addTagToNote(id, tag);

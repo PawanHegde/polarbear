@@ -9,5 +9,5 @@ import javax.persistence.*;
 @Table(name = "tags")
 public class Tag {
     @Id
-    String name;
+    private String name;
 }
