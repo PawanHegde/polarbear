@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class NotesController {
@@ -27,9 +26,18 @@ public class NotesController {
 
     @PutMapping("/notes")
     void putNote(@RequestBody Note note) {
-        Tag tag = new Tag();
-        tag.setName("Random#ness");
-        note.setTags(Set.of(tag));
         notesService.putNote(note);
+    }
+
+    @GetMapping("/tags")
+    List<Tag> getTags() {
+        return notesService.getTags();
+    }
+
+    @PostMapping("/notes/{id}/{tag}")
+    void addTagToNote(@PathVariable("id") Integer id, @PathVariable("tag") String tagText) {
+        Tag tag = new Tag();
+        tag.setName(tagText);
+        notesService.addTagToNote(id, tag);
     }
 }

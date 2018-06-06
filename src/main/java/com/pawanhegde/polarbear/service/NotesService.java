@@ -13,6 +13,18 @@ import java.util.List;
 public class NotesService {
     private SessionFactory sessionFactory;
 
+    private Session getSession () {
+        if(sessionFactory == null) {
+            Configuration configuration = new Configuration();
+            configuration.addAnnotatedClass(Note.class);
+            configuration.addAnnotatedClass(Tag.class);
+
+            sessionFactory = configuration.buildSessionFactory();
+        }
+
+        return sessionFactory.openSession();
+    }
+
     public List<Note> getNotes() {
         Session session = getSession();
 
@@ -43,15 +55,26 @@ public class NotesService {
         session.close();
     }
 
-    private Session getSession () {
-        if(sessionFactory == null) {
-            Configuration configuration = new Configuration();
-            configuration.addAnnotatedClass(Note.class);
-            configuration.addAnnotatedClass(Tag.class);
+    public void addTagToNote(Integer id, Tag tag) {
+        Session session = getSession();
 
-            sessionFactory = configuration.buildSessionFactory();
-        }
+        session.beginTransaction();
+        Note note = session.get(Note.class, id);
+        note.getTags().add(tag);
+        session.saveOrUpdate(note);
 
-        return sessionFactory.openSession();
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    public List<Tag> getTags() {
+        Session session = getSession();
+
+        session.beginTransaction();
+        List<Tag> tags = session.createQuery("from Tag", Tag.class).getResultList();
+        session.close();
+
+        return tags;
     }
 }
